@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Base.Theme.AiChatSample" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/mono_white</item>
+        <item name="colorOnPrimary">@color/mono_black</item>
+        <item name="colorPrimaryContainer">@color/mono_elevated</item>
+        <item name="colorOnPrimaryContainer">@color/mono_white</item>
+        <item name="colorSecondary">@color/mono_white</item>
+        <item name="colorOnSecondary">@color/mono_black</item>
+        <item name="colorSecondaryContainer">@color/mono_elevated</item>
+        <item name="colorOnSecondaryContainer">@color/mono_white</item>
+        <item name="colorSurface">@color/mono_surface</item>
+        <item name="colorOnSurface">@color/mono_white</item>
+        <item name="colorSurfaceVariant">@color/mono_elevated</item>
+        <item name="colorOnSurfaceVariant">@color/mono_muted</item>
+        <item name="colorOutline">@color/mono_border</item>
+        <item name="colorControlActivated">@color/mono_white</item>
+        <item name="android:windowBackground">@color/mono_black</item>
+        <item name="android:statusBarColor">@color/mono_black</item>
+        <item name="android:navigationBarColor">@color/mono_black</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
+
+    <style name="Theme.AiChatSample" parent="Base.Theme.AiChatSample" />
+</resources>

@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Main Content -->
+    <LinearLayout
+        android:id="@+id/main_content"
+        android:fitsSystemWindows="true"
+        android:background="@color/mono_black"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+
+        <!-- Top Header Bar with Menu Icon on Top-Left -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <ImageButton
+                android:id="@+id/btn_menu"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_menu_24"
+                android:tint="@color/mono_white"
+                android:contentDescription="Recent memory menu" />
+
+            <TextView
+                android:id="@+id/top_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:text="llama.android"
+                android:textStyle="bold"
+                android:textColor="@color/mono_white"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+        </LinearLayout>
+
+        <!-- Compact Model Metadata status -->
+        <ScrollView
+            android:id="@+id/metadata_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="80dp"
+            android:fadeScrollbars="false">
+
+            <TextView
+                android:id="@+id/gguf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="Selected GGUF model's metadata will show here."
+                android:textColor="@color/mono_muted"
+                style="@style/TextAppearance.MaterialComponents.Caption" />
+
+        </ScrollView>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="16dp"
+            app:dividerColor="@color/mono_border" />
+
+        <!-- Chat Messages -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/messages"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fadeScrollbars="false"
+            android:scrollbars="vertical"
+            android:clipToPadding="false"
+            android:paddingTop="8dp"
+            android:paddingBottom="12dp"
+            app:reverseLayout="true"
+            tools:listitem="@layout/item_message_assistant" />
+
+        <!-- Chat Input & Model Swapping Bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="?attr/colorSurface"
+            android:paddingHorizontal="12dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="6dp">
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginBottom="6dp"
+                app:dividerColor="@color/mono_border" />
+
+            <!-- Model Swap & Plus Bar (matching reference image) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="4dp">
+
+                <ImageButton
+                    android:id="@+id/btn_import_model"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_add_24"
+                    android:tint="@color/mono_white"
+                    android:contentDescription="Import model" />
+
+                <!-- Model selection chip/button with dropdown chevron -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_model_swap"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:minHeight="36dp"
+                    android:layout_marginStart="8dp"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:text="Select Model"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    app:icon="@drawable/ic_arrow_drop_down_24"
+                    app:iconGravity="end"
+                    app:iconTint="@color/mono_white"
+                    android:textSize="13sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_chat_mode"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:minHeight="36dp"
+                    android:minWidth="0dp"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:text="Use Backboard"
+                    android:textSize="12sp"
+                    app:strokeColor="@color/mono_border" />
+
+            </LinearLayout>
+
+            <!-- Attached Image Preview Container -->
+            <FrameLayout
+                android:id="@+id/image_preview_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:background="@drawable/bg_image_preview"
+                android:paddingTop="2dp"
+                android:paddingBottom="6dp">
+
+                <ImageView
+                    android:id="@+id/image_preview"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="Attached image preview" />
+
+                <ImageButton
+                    android:id="@+id/btn_remove_image"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="top|end"
+                    android:background="#99000000"
+                    android:src="@drawable/ic_close_24"
+                    android:tint="@color/mono_white"
+                    android:contentDescription="Remove image" />
+
+            </FrameLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/slash_alarm_suggestion"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginBottom="4dp"
+                android:gravity="start|center_vertical"
+                android:text="Alarm command   /alarm"
+                android:visibility="gone"
+                app:icon="@drawable/ic_add_24"
+                app:iconGravity="textStart" />
+
+            <!-- Text Input Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <EditText
+                    android:id="@+id/user_input"
+                    android:enabled="false"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:layout_marginEnd="4dp"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="10dp"
+                    android:background="@drawable/bg_input_field"
+                    android:textColor="@color/mono_white"
+                    android:textColorHint="@color/mono_muted"
+                    style="@style/TextAppearance.MaterialComponents.Body2"
+                    android:hint="Select a GGUF model file" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab"
+                    android:enabled="true"
+                    style="@style/Widget.Material3.FloatingActionButton.Primary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    app:fabCustomSize="44dp"
+                    android:src="@drawable/outline_folder_open_24"
+                    app:backgroundTint="@color/mono_white"
+                    app:tint="@color/mono_black" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Navigation Drawer Sidebar for Recent Memory / Chat History -->
+    <LinearLayout
+        android:id="@+id/drawer_view"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        android:background="?attr/colorSurface"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chat Memory"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:paddingBottom="12dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_new_chat"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="New Chat"
+            app:icon="@drawable/ic_add_24" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_my_assistant"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="My Assistant" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Recent Chats"
+            android:textStyle="bold"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
+            style="@style/TextAppearance.MaterialComponents.Overline" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recent_chats_rv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="8dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_clear_all_chats"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Clear All Chats"
+            app:icon="@drawable/ic_delete_24" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_user_profile"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Your Profile" />
+
+    </LinearLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>
